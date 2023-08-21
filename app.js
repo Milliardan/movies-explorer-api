@@ -18,26 +18,28 @@ const {
 
 const app = express();
 
-mongoose
-  .connect(DATABASE_URL)
-  .then(() => {
+async function startServer() {
+  try {
+    await mongoose.connect(DATABASE_URL);
     console.log(`Connected to database on ${DATABASE_URL}`);
-  })
-  .catch((err) => {
-    console.log('Error on database connection');
-    console.error(err);
-  });
 
-app.use(limiter);
-app.use(cors());
-app.use(requestLogger);
-app.use(helmet());
-app.use(routes);
+    app.use(limiter);
+    app.use(cors());
+    app.use(requestLogger);
+    app.use(helmet());
+    app.use(routes);
 
-app.use(errorLogger);
-app.use(errors());
-app.use(errorHandler);
+    app.use(errorLogger);
+    app.use(errors());
+    app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`App started on port ${PORT}...`);
-});
+    app.listen(PORT, () => {
+      console.log(`App started on port ${PORT}...`);
+    });
+  } catch (error) {
+    console.error('Error on database connection');
+    console.error(error);
+  }
+}
+
+startServer();
