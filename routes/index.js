@@ -1,7 +1,7 @@
 const express = require('express');
 
-const { movies } = require('./movies');
-const { users } = require('./users');
+const { moviesRouter } = require('./movies');
+const { usersRouter } = require('./users');
 const { NotFoundError } = require('../errors');
 const { auth } = require('../middlewares/auth');
 const { createUser, login } = require('../controllers/users');
@@ -17,8 +17,8 @@ routes.post('/signin', loginValidator, login);
 
 routes.all('*', auth);
 
-routes.use('/users', users);
-routes.use('/movies', movies);
+routes.use('/users', usersRouter);
+routes.use('/movies', moviesRouter);
 
 routes.all('*', (req, res, next) => {
   next(new NotFoundError(ERROR_MESSAGES.PAGE_NOT_FOUND));
