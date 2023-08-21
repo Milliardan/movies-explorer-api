@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/user');
-const { ConflictError } = require('../errors');
+const { ConflictError, NotFoundError, UnauthorizedError } = require('../errors');
 const { handleMongooseError } = require('../utils/handleMongooseError');
 const { ERROR_MESSAGES } = require('../utils/constants');
 

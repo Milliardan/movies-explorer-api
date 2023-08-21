@@ -6,7 +6,6 @@ function validateUrl(value, helpers) {
   }
 
   return helpers.message(`${value} is not valid link`);
-
 }
 
 module.exports = { validateUrl };

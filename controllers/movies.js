@@ -1,7 +1,7 @@
 const { mongoose } = require('mongoose');
 
 const { Movie } = require('../models/movie');
-const { ConflictError } = require('../errors');
+const { ConflictError, ForbiddenError, NotFoundError } = require('../errors');
 const { handleMongooseError } = require('../utils/handleMongooseError');
 const { ERROR_MESSAGES } = require('../utils/constants');
 
