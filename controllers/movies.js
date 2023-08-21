@@ -1,9 +1,9 @@
 const { mongoose } = require('mongoose');
 
-const { Movie } = require('../../models/movie');
-const { ConflictError } = require('../../errors');
-const { handleMongooseError } = require('../../utils/handleMongooseError');
-const { ERROR_MESSAGES } = require('../../utils/constants');
+const { Movie } = require('../models/movie');
+const { ConflictError } = require('../errors');
+const { handleMongooseError } = require('../utils/handleMongooseError');
+const { ERROR_MESSAGES } = require('../utils/constants');
 
 async function getMovies(req, res, next) {
   try {

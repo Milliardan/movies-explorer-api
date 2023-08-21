@@ -2,13 +2,12 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
-const { User } = require('../../models/user');
-const { ConflictError } = require('../../errors');
-const { handleMongooseError } = require('../../utils/handleMongooseError');
-const { ERROR_MESSAGES } = require('../../utils/constants');
-const configDefault = require('../../utils/configDefault');
+const { User } = require('../models/user');
+const { ConflictError } = require('../errors');
+const { handleMongooseError } = require('../utils/handleMongooseError');
+const { ERROR_MESSAGES } = require('../utils/constants');
 
-const configDefault = require('../../utils/configDefault');
+const configDefault = require('../utils/configDefault');
 
 const { JWT_SECRET = configDefault.JWT_SECRET } = process.env;
 const { SALT_LENGTH = configDefault.SALT_LENGTH } = process.env;
