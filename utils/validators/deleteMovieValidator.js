@@ -4,7 +4,7 @@ const { validateObjectId } = require('../validateObjectId');
 
 const deleteMovieValidator = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().custom(validateObjectId),
+    id: Joi.string().custom(validateObjectId).required(),
   }),
 });
 
