@@ -4,7 +4,7 @@ const { moviesRouter } = require('./movies');
 const { usersRouter } = require('./users');
 const { NotFoundError } = require('../errors');
 const { auth } = require('../middlewares/auth');
-const { createUser, login } = require('../controllers/users');
+const { createUser, login, logout } = require('../controllers/users');
 const { createUserValidator, loginValidator } = require('../utils/validators');
 const { ERROR_MESSAGES } = require('../utils/constants');
 
@@ -14,6 +14,7 @@ routes.all('*', express.json());
 
 routes.post('/signup', createUserValidator, createUser);
 routes.post('/signin', loginValidator, login);
+router.post('/signout', logout);
 
 routes.all('*', auth);
 

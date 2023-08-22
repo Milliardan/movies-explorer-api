@@ -118,9 +118,14 @@ async function login(req, res, next) {
   }
 }
 
+async function logout = (req, res) => {
+  return res.cookie('jwt', {expires: Date.now()}).send({ message: 'Token was deleted from cookies.' });
+};
+
 module.exports = {
   getUserInfo,
   updateUserInfo,
   createUser,
   login,
+  logout,
 };
