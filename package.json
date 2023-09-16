@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "npx eslint .",
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "deploy": "scp -r ../movies-explorer-api/* denis-praktikum@158.160.75.154:/home/denis-praktikum/backend"
   },
   "repository": {
     "type": "git",
