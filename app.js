@@ -24,7 +24,11 @@ async function startServer() {
     console.log(`Connected to database on ${DATABASE_URL}`);
 
     app.use(limiter);
-    app.use(cors());
+    app.use(cors({
+      origin: '*', // Разрешить доступ с любых источников (будьте осторожны, так как это может быть небезопасно)
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Укажите поддерживаемые HTTP-методы
+      credentials: true, // Разрешить передачу куки и заголовков авторизации
+    }));
     app.use(requestLogger);
     app.use(helmet());
     app.use(routes);
