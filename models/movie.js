@@ -67,6 +67,8 @@ const movieSchema = new mongoose.Schema(
   },
 );
 
+movieSchema.index({ owner: 1, movieId: 1 }, { unique: true });
+
 const Movie = mongoose.model('movie', movieSchema);
 
 module.exports = { Movie };
