@@ -1,13 +1,15 @@
 const express = require('express');
+
 const { getMovies, saveMovie, deleteMovie } = require('../controllers/movies');
-const { saveMovieValidator, deleteMovieValidator } = require('../utils/validators');
+const {
+  saveMovieValidator,
+  deleteMovieValidator,
+} = require('../utils/validators');
 
-const moviesRouter = express.Router();
+const movies = express.Router();
 
-moviesRouter.get('/', getMovies);
+movies.get('/', getMovies);
+movies.post('/', saveMovieValidator, saveMovie);
+movies.delete('/:id', deleteMovieValidator, deleteMovie);
 
-moviesRouter.post('/', saveMovieValidator, saveMovie);
-
-moviesRouter.delete('/:id', deleteMovieValidator, deleteMovie);
-
-module.exports = { moviesRouter };
+module.exports = { movies };
