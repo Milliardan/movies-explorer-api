@@ -8,9 +8,10 @@ const { ERROR_MESSAGES } = require('../utils/constants');
 
 async function getMovies(req, res, next) {
   try {
-    // const userId = req.user._id;
-    // const movies = await Movie.find({ owner: userId }).populate('owner');
-    res.send({ test: JSON.stringify(req.user) });
+    const userId = req.user._id;
+    const movies = await Movie.find({ owner: userId }).populate('owner');
+    // res.send({ test: JSON.stringify(req.user) });
+    res.send(movies);
   } catch (err) {
     next(err);
   }
