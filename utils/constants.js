@@ -10,7 +10,7 @@ const STATUS_CODES = {
 const ERROR_MESSAGES = {
   USER_CONFLICT: 'Пользователь с таким email уже существует',
   MOVIE_CONFLICT: 'Фильм с таким id уже существует',
-  FORBIDDEN: 'Нет прав для выполнения действия',
+  FORBIDDEN: 'Нет прав для выполнения действий',
   USER_NOT_FOUND: 'Пользователь не найден',
   MOVIE_NOT_FOUND: 'Фильм не найден',
   PAGE_NOT_FOUND: 'Неверный адрес запроса',

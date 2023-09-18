@@ -56,11 +56,13 @@ const movieSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
-    },
+    owner: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true,
+      },
+    ],
   },
   {
     versionKey: false,
