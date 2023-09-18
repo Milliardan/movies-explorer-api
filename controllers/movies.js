@@ -1,4 +1,3 @@
-const winston = require('winston');
 const { mongoose } = require('mongoose');
 
 const { Movie } = require('../models/movie');
@@ -10,7 +9,6 @@ async function getMovies(req, res, next) {
   try {
     const userId = req.user._id;
     const movies = await Movie.find({ owner: userId }).populate('owner');
-    // res.send({ test: JSON.stringify(req.user) });
     res.send(movies);
   } catch (err) {
     next(err);
@@ -53,11 +51,6 @@ async function saveMovie(req, res, next) {
     await movie.populate('owner');
     res.status(201).send(movie);
   } catch (err) {
-    if (err.code === 11000) {
-      next(new ConflictError(ERROR_MESSAGES.MOVIE_CONFLICT));
-      return;
-    }
-
     if (err instanceof mongoose.Error) {
       next(handleMongooseError(err));
       return;
