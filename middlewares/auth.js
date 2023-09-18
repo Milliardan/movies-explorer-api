@@ -1,4 +1,3 @@
-const winston = require('winston');
 const jwt = require('jsonwebtoken');
 
 const { UnauthorizedError } = require('../errors');
@@ -25,10 +24,6 @@ function auth(req, res, next) {
     }
 
     req.user = payload;
-
-    // Логирование
-    winston.info('Authorization successful', { user: req.user });
-
     next();
   } catch (err) {
     next(err);

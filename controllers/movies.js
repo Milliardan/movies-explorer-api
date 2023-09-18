@@ -8,7 +8,7 @@ const { ERROR_MESSAGES } = require('../utils/constants');
 async function getMovies(req, res, next) {
   try {
     const userId = req.user._id;
-    const movies = await Movie.find({ owner: userId }).populate('owner');
+    const movies = await Movie.find({ owner: { $in: [userId] } }).populate('owner');
     res.send(movies);
   } catch (err) {
     next(err);
@@ -33,23 +33,43 @@ async function saveMovie(req, res, next) {
 
     const ownerId = req.user._id;
 
-    const movie = await Movie.create({
-      country,
-      director,
-      duration,
-      year,
-      description,
-      image,
-      trailerLink,
-      thumbnail,
-      nameRU,
-      nameEN,
-      movieId,
-      owner: ownerId,
-    });
+    // Попытка найти фильм по movieId
+    const existingMovie = await Movie.findOne({ movieId });
 
-    await movie.populate('owner');
-    res.status(201).send(movie);
+    // Если фильм с таким movieId уже существует
+    if (existingMovie) {
+      // Проверяем, что ownerId не совпадает с текущим ownerId
+      if (!existingMovie.owner.includes(ownerId)) {
+        // Если ownerId не совпадает, добавляем ownerId к списку владельцев
+        existingMovie.owner.push(ownerId);
+
+        // Сохраняем обновленный фильм
+        const updatedMovie = await existingMovie.save();
+
+        res.status(200).send(updatedMovie);
+      } else {
+        // Если ownerId совпадает, возвращаем ошибку конфликта
+        next(new ConflictError(ERROR_MESSAGES.MOVIE_CONFLICT));
+      }
+    } else {
+      // Если фильм с таким movieId не существует, создаем новый фильм с owner
+      const newMovie = await Movie.create({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        thumbnail,
+        nameRU,
+        nameEN,
+        movieId,
+        owner: [ownerId], // Создаем массив владельцев с текущим ownerId
+      });
+
+      res.status(201).send(newMovie);
+    }
   } catch (err) {
     if (err instanceof mongoose.Error) {
       next(handleMongooseError(err));
