@@ -83,23 +83,19 @@ async function saveMovie(req, res, next) {
 async function deleteMovie(req, res, next) {
   try {
     const { id } = req.params;
+    const userId = req.user._id;
 
-    const movie = await Movie.findById(id).populate('owner');
+    const updatedMovie = await Movie.findOneAndUpdate(
+      { _id: id, owner: userId }, // Условие для поиска фильма с текущим пользователем владельцем
+      { $pull: { owner: userId } }, // Удалить текущего пользователя из массива owner
+      { new: true } // Вернуть обновленный документ
+    );
 
-    if (!movie) {
+    if (!updatedMovie) {
       throw new NotFoundError(ERROR_MESSAGES.MOVIE_NOT_FOUND);
     }
 
-    const ownerId = movie.owner.id;
-    const userId = req.user._id;
-
-    if (ownerId !== userId) {
-      throw new ForbiddenError(ERROR_MESSAGES.UNAUTHORIZED);
-    }
-
-    await Movie.findByIdAndRemove(id);
-
-    res.send(movie);
+    res.send(updatedMovie);
   } catch (err) {
     if (err instanceof mongoose.Error) {
       next(handleMongooseError(err));
